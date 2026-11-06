@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Definir Nova Senha</title>
+    <!-- Importa o Supabase JS via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="styles/login.css">
+    <script src="scripts/theme.js"></script>
+    <link rel="stylesheet" href="styles/theme.css">
+</head>
+<body>
+    <button
+        type="button"
+        class="theme-toggle theme-toggle--fixed"
+        data-theme-toggle
+        aria-label="Alterar tema"
+    >
+        <span class="theme-toggle-icon" aria-hidden="true">☀</span>
+    </button>
+
+    <div class="login-card">
+        <h2 class="login-header">Criar Nova Senha</h2>
+        <form class="form-group" id="recovery-form">
+            <input type="password" id="new-password" placeholder="Digite sua nova senha" required minlength="6">
+            <button class="btn-submit" id="btn-submit" type="submit">Salvar Nova Senha</button>
+        </form>
+        <div id="mensagem"></div>
+    </div>
+
+    <script>
+            const SUPABASE_URL = 'https://gqpuencmgbfsywvmaxib.supabase.co';
+            const SUPABASE_ANON_KEY = 'sb_publishable_mxz8p0Q3Hf28IKA9_S6TLQ_tNgpINWI'
+            // 1. Cria o cliente Supabase
+            const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+            const form = document.getElementById('recovery-form');
+            const passwordInput = document.getElementById('new-password');
+            const btnSubmit = document.getElementById('btn-submit');
+            const mensagem = document.getElementById('mensagem');
+
+            // 2. Verifica se a sessão do link foi capturada corretamente
+            supabaseClient.auth.onAuthStateChange(async (event, session) => {
+                if (event === 'PASSWORD_RECOVERY' || event === 'SIGNED_IN' || session) {
+                    console.log("Sessão capturada para atualização de senha:", event);
+                }
+            });
+
+            // 3. Ao enviar o formulário
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault(); // Impede o reload da página!
+
+                const novaSenha = passwordInput.value;
+
+                if (!novaSenha || novaSenha.length < 6) {
+                    mensagem.textContent = "A senha deve ter no mínimo 6 caracteres.";
+                    mensagem.style.color = "red";
+                    return;
+                }
+
+                btnSubmit.disabled = true;
+                mensagem.textContent = "Salvando nova senha...";
+                mensagem.style.color = "#2563eb";
+
+                try {
+                    // Atualiza a senha no Supabase Auth
+                    const { data, error } = await supabaseClient.auth.updateUser({
+                        password: novaSenha
+                    });
+
+                    if (error) {
+                        throw error;
+                    }
+
+                    mensagem.textContent = "Senha alterada com sucesso! Redirecionando para o login...";
+                    mensagem.style.color = "green";
+
+                    // Encerra a sessão temporária para forçar o login manual com a nova senha
+                    await supabaseClient.auth.signOut();
+
+                    setTimeout(() => {
+                        window.location.href = 'https://mqpassamaike.github.io/plataforma/login.html'; // Ajuste conforme a rota do seu servidor de login
+                    }, 2000);
+
+                } catch (err) {
+                    console.error("Erro no updateUser:", err);
+                    mensagem.textContent = "Erro ao salvar a senha: " + err.message;
+                    mensagem.style.color = "red";
+                    btnSubmit.disabled = false;
+                }
+            });
+        </script>
+</body>
+</html>

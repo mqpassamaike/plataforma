@@ -1,0 +1,254 @@
+
+/* =========================================
+   TEMA 1 — CLARO
+========================================= */
+
+:root {
+    color-scheme: light;
+
+    --primary-color: #1e3a8a;
+    --primary-hover: #1e40af;
+    --bg-color: #f1f5f9;
+    --card-bg: #ffffff;
+    --text-main: #0f172a;
+    --text-muted: #475569;
+    --border-color: #cbd5e1;
+    --error-color: #ef4444;
+    --success-color: #16a34a;
+
+    --card-bg-alt: #f8fafc;
+    --status-bg: #dcfce7;
+    --status-text: #166534;
+    --result-bg: #f0fdf4;
+    --result-border: #bbf7d0;
+    --result-text: #166534;
+    --result-muted: #475569;
+    --shadow-color: rgba(15, 23, 42, 0.08);
+}
+
+/* =========================================
+   TEMA 2 — ESCURO
+========================================= */
+
+[data-theme="dark"] {
+    color-scheme: dark;
+
+    --primary-color: #60a5fa;
+    --primary-hover: #93c5fd;
+    --bg-color: #0f172a;
+    --card-bg: #1e293b;
+    --text-main: #f1f5f9;
+    --text-muted: #94a3b8;
+    --border-color: #334155;
+    --error-color: #f87171;
+    --success-color: #4ade80;
+
+    --card-bg-alt: #263449;
+    --status-bg: #14532d;
+    --status-text: #bbf7d0;
+    --result-bg: #142d25;
+    --result-border: #166534;
+    --result-text: #86efac;
+    --result-muted: #a7b8ac;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+}
+
+/* =========================================
+   TEMA 3 — ESPECIAL AZUL E DOURADO
+========================================= */
+
+[data-theme="special"] {
+    color-scheme: dark;
+
+    --bg-body: #080d1a;
+
+    --text-main: #f1f5f9;
+    --text-muted: #94a3b8;
+    --text-dim: #64748b;
+    --text-light: #cbd5e1;
+    --text-card-light: #e2e8f0;
+
+    --primary-blue: #2563eb;
+    --primary-blue-hover: #3b82f6;
+    --primary-blue-dark: #1d4ed8;
+    --primary-blue-deep: #1e40af;
+
+    --gradient-bg-start: #0b1329;
+    --gradient-bg-end: #060b18;
+
+    --accent-primary: #eab308;
+    --accent-light: #facc15;
+    --accent-dark: #ca8a04;
+    --accent-glow: rgba(234, 179, 8, 0.15);
+    --accent-bg-subtle: rgba(234, 179, 8, 0.1);
+    --accent-shadow: rgba(234, 179, 8, 0.4);
+    --accent-shadow-hover: rgba(234, 179, 8, 0.6);
+
+    --alert-red: #ef4444;
+    --alert-red-light: #f87171;
+    --alert-red-text: #fca5a5;
+
+    --card-bg: rgba(30, 41, 59, 0.65);
+    --card-bg-alt: rgba(30, 41, 59, 0.6);
+    --card-bg-solid: rgba(15, 23, 42, 0.8);
+    --card-bg-deep: rgba(15, 23, 42, 0.8);
+    --card-bg-darker: rgba(15, 23, 42, 0.9);
+
+    --border-color: rgba(255, 255, 255, 0.12);
+    --border-color-light: rgba(255, 255, 255, 0.1);
+    --shadow-color: rgba(0, 0, 0, 0.6);
+
+    --glow-blue: rgba(37, 99, 235, 0.25);
+    --badge-grad-1: rgba(37, 99, 235, 0.2);
+    --badge-grad-2: rgba(234, 179, 8, 0.2);
+    --action-banner-start: rgba(234, 179, 8, 0.15);
+    --action-banner-end: rgba(37, 99, 235, 0.15);
+    --flow-arrow-color: #475569;
+
+    --page1-bg-image: url('img-pm.png');
+
+    --font-size-title: 25px;
+    --font-size-lead: 18px;
+    --font-size-body: 16px;
+    --font-size-card: 15px;
+    --font-size-small: 14px;
+
+    --spacing-body-gap: 32px;
+    --spacing-card-padding: 28px;
+
+    /* Integração com as variáveis já utilizadas no site */
+
+    --primary-color: var(--primary-blue);
+    --primary-hover: var(--primary-blue-hover);
+    --bg-color: var(--bg-body);
+    --text-muted: #94a3b8;
+    --error-color: var(--alert-red);
+    --success-color: #4ade80;
+
+    --status-bg: rgba(234, 179, 8, 0.12);
+    --status-text: #facc15;
+
+    --result-bg: rgba(30, 41, 59, 0.8);
+    --result-border: rgba(234, 179, 8, 0.25);
+    --result-text: #facc15;
+    --result-muted: #cbd5e1;
+}
+
+/* Fundo especial */
+
+[data-theme="special"] body {
+    background: linear-gradient(
+        135deg,
+        var(--gradient-bg-start),
+        var(--gradient-bg-end)
+    );
+}
+
+/* =========================================
+   TRANSIÇÕES
+========================================= */
+
+body,
+header,
+aside,
+section,
+article,
+button,
+input,
+a,
+.stat-card,
+.subject-card,
+.question-card,
+.login-card,
+.subscription-banner {
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+/* =========================================
+   BOTÃO DE TEMA
+========================================= */
+
+.theme-toggle {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--card-bg);
+    color: var(--text-main);
+
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+
+    font-size: 1.35rem;
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.theme-toggle:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    transform: translateY(-1px);
+}
+
+.theme-toggle:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 3px;
+}
+
+.theme-toggle--fixed {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1000;
+}
+
+/* =========================================
+   ELEMENTOS DINÂMICOS
+========================================= */
+
+.explanation-box {
+    background: var(--card-bg-alt);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 1.25rem;
+    margin-top: 1.5rem;
+    display: none;
+}
+
+.explanation-box.correct {
+    border-left: 4px solid var(--success-color);
+}
+
+.explanation-box.incorrect {
+    border-left: 4px solid var(--error-color);
+}
+
+.result-card {
+    margin-top: 25px;
+    padding: 15px;
+    background: var(--result-bg);
+    border: 1px solid var(--result-border);
+    border-radius: 6px;
+    text-align: center;
+}
+
+.result-title {
+    color: var(--result-text);
+}
+
+.result-text {
+    color: var(--success-color);
+}
+
+.result-muted {
+    color: var(--result-muted);
+}
