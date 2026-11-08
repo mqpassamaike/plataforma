@@ -1,16 +1,218 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <title>Redirecionando...</title>
-    <!-- Redirecionamento instantâneo via Meta Tag -->
-    <meta http-equiv="refresh" content="0;url=login.html">
-    <!-- Redirecionamento via JavaScript (remove a página atual do histórico) -->
-    <script>
-        window.location.replace("login.html");
-    </script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Preparatório para o concurso da PM (Vunesp)</title>
+<meta name="description" content="Banco de questões por matéria, ebooks de orientação e liberação do material completo no dia 8. Preparatório independente para o concurso da PM.">
+<link rel="stylesheet" href="styles/theme-index.css">
+<link rel="stylesheet" href="styles/themes-extra.css">
+<link rel="stylesheet" href="styles/landing.css">
+<script src="scripts/config.js"></script>
+<script>
+document.documentElement.classList.add('js');
+try{document.documentElement.dataset.theme=localStorage.getItem(SITE_CONFIG.theme.storageKey)||SITE_CONFIG.theme.default}
+catch(e){document.documentElement.dataset.theme=SITE_CONFIG.theme.default}
+</script>
 </head>
 <body>
-    <p>Se você não for redirecionado automaticamente, <a href="login.html">clique aqui</a>.</p>
+<header class="top">
+  <div class="wrap bar">
+    <a class="brand" href="#inicio" id="brand"></a>
+    <nav id="nav" aria-label="Seções">
+      <a href="#prova">Prova</a><a href="#materias">Matérias</a><a href="#questao">Teste</a><a href="#rotina">Rotina</a>
+      <a href="#jornada">Jornada</a><a href="#painel">Painel</a><a href="#oferta">Oferta</a><a href="#faq">Dúvidas</a>
+      <a class="nav-login" id="navLogin" href="/login.html">Já sou aluno</a>
+    </nav>
+    <div class="tools">
+      <div class="themebox" id="themeBox"></div>
+      <a class="login" id="loginLink" href="/login.html">Já sou aluno</a>
+      <a class="btn" data-cta href="#oferta">Garantir vaga</a>
+      <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="nav" aria-label="Abrir menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<main>
+<section class="sec" id="inicio">
+  <!-- IMAGEM DE FUNDO -->
+  <div class="sec-bg" aria-hidden="true">
+    <div class="sec-bg bg-normal" aria-hidden="true">
+      <img src="img/hero.webp" alt="" data-bg>
+    </div>
+    
+    <!-- Imagem alternativa para portrait -->
+    <div class="sec-bg bg-port" aria-hidden="true">
+      <img src="img/hero-cel.webp" alt="" data-bg>
+    </div>
+  </div>
+  <div class="wrap grid2">
+    <div>
+      <p class="kicker">Preparatório independente para o concurso da PM (Vunesp)</p>
+      <h1>Estude para a prova como ela vai ser cobrada.</h1>
+      <p class="lead">Questões organizadas por matéria, ebooks que mostram o caminho até a PM e o material completo liberado no dia 8.</p>
+      <div class="actions"><a class="btn big" data-cta href="#oferta">Quero começar</a><a class="btn ghost big" href="#prova">Ver como é a prova</a></div>
+      <div class="stats" id="stats"></div>
+    </div>
+    <div class="book-slot">
+      <!-- MOCKUP DO LIVRO: Proporção ideal 2:3 (ex.: 800x1200). -->
+      <div  class="book js-tilt" data-ph="Capa do ebook">
+        <img src="img/capa-low.webp" alt="Capa do ebook do curso" data-fallback>
+        <span class="book-spine" aria-hidden="true"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="prova">
+  <div class="wrap grid2">
+    <div>
+      <h2>A prova em números</h2>
+      <p class="lead">Toque em uma fatia para ver o peso de cada matéria na prova de 60 questões.</p>
+      <p class="hint" data-for="#donut circle,#legend button"><span class="t-mouse">Passe o mouse ou clique nas fatias</span><span class="t-touch">Toque nas fatias ou na lista</span></p>
+      <ul class="legend" id="legend"></ul>
+      <p class="note">Distribuição típica da prova. Além das questões, há redação. Confira sempre o edital.</p>
+    </div>
+    <div class="donutbox" id="donut"></div>
+  </div>
+</section>
+
+<section class="sec" id="materias">
+  <!-- IMAGEM DE FUNDO -->
+  <div class="sec-bg" aria-hidden="true"><img src="./img/bg-materias.webp" alt="" data-bg></div>
+  <div class="wrap">
+    <h2>Escolha uma matéria</h2>
+    <p class="lead">Veja os temas que você vai treinar em cada uma.</p>
+    <p class="hint" data-for="#tablist button"><span class="t-mouse">Clique em uma matéria</span><span class="t-touch">Deslize e toque em uma matéria</span></p>
+    <div class="tabs">
+      <div class="tablist" role="tablist" aria-label="Matérias" id="tablist"></div>
+      <div class="card panel" id="subjectPanel" role="tabpanel" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="questao">
+  <div class="wrap narrow">
+    <h2>Teste uma questão agora</h2>
+    <p class="lead">É assim que você vai treinar: responde, vê a correção e entende o porquê.</p>
+    <p class="hint" data-for="#quiz"><span class="t-mouse">Clique em uma alternativa</span><span class="t-touch">Toque em uma alternativa</span></p>
+    <div class="card quiz" id="quiz"></div>
+  </div>
+</section>
+
+<section class="sec" id="rotina">
+  <!-- IMAGEM DE FUNDO -->
+  <div class="sec-bg" aria-hidden="true"><img src="./img/bg-rotina.webp" alt="" data-bg></div>
+  <div class="wrap narrow">
+    <h2>Quanto dá para treinar na sua rotina?</h2>
+    <p class="lead">Mexa nos controles e veja quantas questões você resolve até a prova.</p>
+    <p class="hint" data-for="#hours,#days"><span class="t-mouse">Mexa nos controles</span><span class="t-touch">Arraste os controles</span></p>
+    <div class="card sim">
+      <label>Horas de estudo por dia: <output id="hOut"></output><input type="range" id="hours" step="0.5" min="0.5"></label>
+      <label>Dias de estudo: <output id="dOut"></output><input type="range" id="days" step="1" min="7"></label>
+      <div class="simres">
+        <div><strong id="rDay">0</strong><span>questões por dia</span></div>
+        <div><strong id="rTot">0</strong><span>questões no período</span></div>
+        <div><strong id="rExam">0</strong><span>provas de 60 questões</span></div>
+      </div>
+      <div class="blocks" id="blocks" aria-hidden="true"></div>
+      <p class="note" id="simNote"></p>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="jornada">
+  <div class="wrap">
+    <h2>Seus primeiros 8 dias</h2>
+    <p class="lead">Escolha um dia para ver o que chega para você.</p>
+    <p class="hint" data-for="#days8"><span class="t-mouse">Clique em um dia</span><span class="t-touch">Toque em um dia</span></p>
+    <div class="days" id="days8" role="tablist" aria-label="Dias"></div>
+    <div class="card dayinfo" id="dayInfo" aria-live="polite"></div>
+  </div>
+</section>
+
+<section class="sec" id="painel">
+  <!-- IMAGEM DE FUNDO -->
+  <div class="sec-bg" aria-hidden="true"><img src="./img/bg-painel.webp" alt="" data-bg></div>
+  <div class="wrap grid2">
+    <div>
+      <h2>Acompanhe seus acertos por matéria</h2>
+      <p class="lead">Seu painel mostra onde você está forte e onde precisa treinar mais.</p>
+      <div class="card bars" id="bars"></div>
+      <button class="btn ghost" type="button" id="simBtn">Simular outra rodada</button>
+      <p class="note">Dados de exemplo, apenas ilustrativos.</p>
+    </div>
+    <figure class="img-slot tall" data-ph="Print do painel do aluno (tema especial)">
+      <img src="./img/painel.webp" alt="Painel do aluno com acertos por matéria" data-fallback>
+    </figure>
+  </div>
+</section>
+
+
+<section class="sec" id="oferta">
+  <div class="wrap narrow">
+    <div class="card offer">
+      <!-- Fundo SVG movido para dentro do card -->
+      <div class="sec-bg sale-cont" aria-hidden="true">  
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="100%" height="100%">
+          <!-- Grupo de Raios Amarelos -->
+          <g fill="#0f172a" transform="translate(400, 400)">
+            <path d="M 0 0 L -70.53 -1200 L 70.53 -1200 Z" />
+            <path d="M 0 0 L -70.53 -1200 L 70.53 -1200 Z" transform="rotate(18)" />
+            <path d="M 0 0 L -70.53 -1200 L 70.53 -1200 Z" transform="rotate(36)" />
+            <path d="M 0 0 L -70.53 -1200 L 70.53 -1200 Z" transform="rotate(54)" />
+            <path d="M 0 0 L -70.53 -1200 L 70.53 -1200 Z" transform="rotate(72)" />
+            <path d="M 0 0 L -70.53 -1200 L 70.53 -1200 Z" transform="rotate(90)" />
+            <path d="M 0 0 L -70.53 -1200 L 70.53 -1200 Z" transform="rotate(108)" />
+            <path d="M 0 0 L -70.53 -1200 L 70.53 -1200 Z" transform="rotate(126)" />
+            <path d="M 0 0 L -70.53 -1200 L 70.53 -1200 Z" transform="rotate(144)" />
+            <path d="M 0 0 L -70.53 -1200 L 70.53 -1200 Z" transform="rotate(162)" />
+            <path d="M 0 0 L -70.53 -1200 L 70.53 -1200 Z" transform="rotate(180)" />
+            <path d="M 0 0 L -70.53 -1200 L 70.53 -1200 Z" transform="rotate(198)" />
+            <path d="M 0 0 L -70.53 -1200 L 70.53 -1200 Z" transform="rotate(216)" />
+            <path d="M 0 0 L -70.53 -1200 L 70.53 -1200 Z" transform="rotate(234)" />
+            <path d="M 0 0 L -70.53 -1200 L 70.53 -1200 Z" transform="rotate(252)" />
+            <path d="M 0 0 L -70.53 -1200 L 70.53 -1200 Z" transform="rotate(270)" />
+            <path d="M 0 0 L -70.53 -1200 L 70.53 -1200 Z" transform="rotate(288)" />
+            <path d="M 0 0 L -70.53 -1200 L 70.53 -1200 Z" transform="rotate(306)" />
+            <path d="M 0 0 L -70.53 -1200 L 70.53 -1200 Z" transform="rotate(324)" />
+            <path d="M 0 0 L -70.53 -1200 L 70.53 -1200 Z" transform="rotate(342)" />
+          </g>
+        </svg>
+      </div>
+
+      <!-- Conteúdo do Card -->
+      <h2>Comece hoje e estude no seu ritmo</h2>
+      <div class="timer" id="timer" hidden><span>A oferta termina em</span><strong id="timerVal"></strong></div>
+      <p class="old">De <s id="pFrom"></s></p>
+      <p class="price">Por <strong id="pTo"></strong></p>
+      <p class="badge" id="pOff"></p>
+      <ul class="check" id="features"></ul>
+      <a class="btn big block" data-cta href="#oferta">Garantir minha vaga na Hotmart</a>
+      <p class="note" id="guar"></p>
+      <ol class="steps" id="buySteps"></ol>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="faq">
+  <!-- IMAGEM DE FUNDO -->
+  <!-- <div class="sec-bg" aria-hidden="true"><img src="./img/bg-faq.webp" alt="" data-bg></div> -->
+  <div class="wrap narrow">
+    <h2>Dúvidas frequentes</h2>
+    <div class="faq" id="faqList"></div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p><strong id="fBrand"></strong>. Preparatório independente, sem vínculo com a Polícia Militar nem com a Vunesp. Os exemplos desta página são ilustrativos e não garantem aprovação.</p>
+    <p><a id="supportLink" href="#">Suporte</a> · <a href="#">Termos de uso</a> · <a href="#">Privacidade</a></p>
+  </div>
+</footer>
+<div class="toast" id="toast" role="status"></div>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.8.1/dist/vanilla-tilt.min.js" defer></script>
+<script src="scripts/landing.js" defer></script>
 </body>
 </html>

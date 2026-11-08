@@ -1,0 +1,10 @@
+/* Temas extras. Mesmas variáveis do theme.css + --accent, --on-primary, --on-accent */
+[data-theme="farda"]{color-scheme:light;--bg-color:#ece8da;--card-bg:#f7f4ea;--text-main:#1f2a1a;--text-muted:#58614d;--border-color:#cfc8ae;--primary-color:#3f5a2a;--primary-hover:#4d6d33;--accent:#a16207;--on-primary:#fff;--on-accent:#fff;--error-color:#b91c1c;--success-color:#3f7d20;--shadow-color:rgba(31,42,26,.1)}
+[data-theme="tatico"]{color-scheme:dark;--bg-color:#16181b;--card-bg:#212529;--text-main:#f1f3f5;--text-muted:#a1a8b0;--border-color:#373d44;--primary-color:#f97316;--primary-hover:#fb923c;--accent:#f97316;--on-primary:#1a1005;--on-accent:#1a1005;--error-color:#f87171;--success-color:#84cc16;--shadow-color:rgba(0,0,0,.45)}
+[data-theme="noturno"]{color-scheme:dark;--bg-color:#07182b;--card-bg:#0e2740;--text-main:#e6f1fb;--text-muted:#8fa9c2;--border-color:#1d3d5c;--primary-color:#38bdf8;--primary-hover:#7dd3fc;--accent:#5eead4;--on-primary:#04121f;--on-accent:#04121f;--error-color:#fb7185;--success-color:#4ade80;--shadow-color:rgba(0,0,0,.4)}
+[data-theme="bandeira"]{color-scheme:light;--bg-color:#f5f5f5;--card-bg:#ffffff;--text-main:#0a0a0a;--text-muted:#52525b;--border-color:#d4d4d8;--primary-color:#171717;--primary-hover:#404040;--accent:#b91c1c;--on-primary:#fff;--on-accent:#fff;--error-color:#b91c1c;--success-color:#15803d;--shadow-color:rgba(0,0,0,.08)}
+[data-theme="farda"],[data-theme="tatico"],[data-theme="noturno"],[data-theme="bandeira"]{
+  --card-bg-alt:color-mix(in srgb,var(--text-main) 5%,var(--card-bg));
+  --status-bg:color-mix(in srgb,var(--success-color) 18%,var(--card-bg));--status-text:var(--text-main);
+  --result-bg:color-mix(in srgb,var(--success-color) 12%,var(--card-bg));--result-border:color-mix(in srgb,var(--success-color) 40%,var(--card-bg));
+  --result-text:var(--success-color);--result-muted:var(--text-muted)}
