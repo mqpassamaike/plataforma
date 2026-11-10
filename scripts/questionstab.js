@@ -1,4 +1,3 @@
-
 import { supabase, paginaProtegida } from './getdumb.js';
 
 const QUANTIDADE_QUESTOES_LOTE = 2;
@@ -28,6 +27,12 @@ let loteAtual = null;
 let questoesAtuais = [];
 let enviandoRespostas = false;
 
+// Variáveis globais para o cronômetro
+let timerInterval = null;
+let startTime = null;
+let elapsedSeconds = 0;
+let qtdQuestoes = 5;
+
 const containerTemas = document.getElementById('themeListContainer');
 const containerQuestoes = document.getElementById('questionContainer');
 const tituloMateria = document.getElementById('materiaTitulo');
@@ -49,6 +54,9 @@ function criarElemento(tag, texto = null, classe = '') {
 function mostrarMensagemQuestao(mensagem) {
     if (!containerQuestoes) return;
 
+    // Se houver mensagem de aviso/carregamento, limpa o cronômetro se estiver rodando
+    pararCronometro();
+
     containerQuestoes.replaceChildren(
         criarElemento('p', mensagem)
     );
@@ -69,6 +77,46 @@ function atualizarTeoria(tema) {
     );
 
     theoryContainer.append(titulo, texto);
+}
+
+// Funções do Cronômetro
+function iniciarCronometro() {
+    elapsedSeconds = 0;
+    startTime = Date.now();
+    
+    if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+    }
+    
+    timerInterval = setInterval(() => {
+        elapsedSeconds = Math.floor((Date.now() - startTime) / 1000);
+        
+        const minutos = Math.floor(elapsedSeconds / 60);
+        const segundos = elapsedSeconds % 60;
+        
+        // CORRIGIDO: Usando querySelector para buscar pela CLASSE '.timer-display'
+        const timerElement = document.querySelector('.timer-display');
+        if (timerElement) {
+            timerElement.textContent = `${String(minutos).padStart(2, '0')}:${String(segundos).padStart(2, '0')}`;
+        }
+    }, 1000);
+}
+
+function pararCronometro() {
+    if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+    }
+}
+
+function formatarTextoTempo(segundosTotais) {
+    const m = Math.floor(segundosTotais / 60);
+    const s = Math.round(segundosTotais % 60);
+    if (m > 0) {
+        return `${m}m ${s}s`;
+    }
+    return `${s}s`;
 }
 
 async function carregarTemas(materia) {
@@ -211,11 +259,30 @@ async function iniciarLote(materia, tema, dificuldade) {
         return;
     }
 
+
     renderizarQuestoes(questoesAtuais);
+    
+        // Inicia o cronômetro assim que as questões aparecem na tela
+    iniciarCronometro();
+
 }
 
 function renderizarQuestoes(questoes) {
     containerQuestoes.replaceChildren();
+
+    // Criação do cabeçalho que conterá o display do cronômetro na tela de questões
+    
+    const areaTimer = criarElemento('div', null, 'area-timer');
+    const barraSuperior = criarElemento('div', null, 'timer-bar-container');
+
+    const labelTimer = criarElemento('span', '⏱️ Tempo decorrido:', 'timer-info');
+
+    const displayTimer = criarElemento('span', '00:00', 'timer-display');
+
+
+    areaTimer.appendChild(barraSuperior);
+    barraSuperior.append(labelTimer, displayTimer);
+    containerQuestoes.appendChild(areaTimer);
 
     questoes.forEach((questao, index) => {
         const bloco = criarElemento('div', null, 'bloco-questao');
@@ -226,7 +293,7 @@ function renderizarQuestoes(questoes) {
 
         const header = criarElemento(
             'div',
-            `Questão ${index + 1} • Dificuldade: ${questao.dificuldade || 'Não informada'}`,
+            `Questão ${index + 1} | Dificuldade: ${questao.dificuldade || 'Não informada'}`,
             'question-header'
         );
 
@@ -271,7 +338,6 @@ function renderizarQuestoes(questoes) {
             opcoes.appendChild(label);
         }
 
-        // A aparência da explicação agora é controlada pelo CSS dos temas.
         const explicacao = criarElemento(
             'div',
             null,
@@ -287,9 +353,7 @@ function renderizarQuestoes(questoes) {
         containerQuestoes.appendChild(bloco);
     });
 
-    const areaBotao = criarElemento('div');
-
-    areaBotao.style.margin = '20px auto';
+    const areaBotao = criarElemento('div', null, 'area-btn-action');
 
     const botaoEnviar = criarElemento(
         'button',
@@ -339,6 +403,12 @@ async function enviarRespostas() {
         return;
     }
 
+    // Para o cronômetro e captura o tempo total gasto
+    pararCronometro();
+    const tempoTotalSegundos = elapsedSeconds;
+    const qtdPadrao = totalQuestoes > 0 ? totalQuestoes : qtdQuestoes;
+    const mediaSegundosPorQuestao = tempoTotalSegundos / qtdPadrao;
+
     enviandoRespostas = true;
 
     const botao = document.getElementById('btnResponderLote');
@@ -370,7 +440,6 @@ async function enviarRespostas() {
         return;
     }
 
-    // O gabarito e os comentários só chegam ao navegador depois da correção no servidor.
     const resultados = Array.isArray(data?.resultados)
         ? data.resultados
         : [];
@@ -398,7 +467,6 @@ async function enviarRespostas() {
 
         comentario.style.margin = '0';
 
-        // Classes CSS adaptam as cores conforme o tema selecionado.
         caixa.classList.toggle('correct', resultado.acertou);
         caixa.classList.toggle('incorrect', !resultado.acertou);
 
@@ -414,8 +482,6 @@ async function enviarRespostas() {
 
     if (botao) {
         botao.textContent = 'Respostas enviadas';
-
-        // A aparência do botão desabilitado fica sob controle do CSS.
         botao.disabled = true;
     }
 
@@ -429,7 +495,6 @@ async function enviarRespostas() {
             ? Math.round((acertos / total) * 100)
             : 0;
 
-        // Card de resultado com classes temáticas.
         const card = criarElemento(
             'div',
             null,
@@ -448,6 +513,18 @@ async function enviarRespostas() {
             'result-text'
         );
 
+        // Textos formatados com o tempo total e a média por questão
+        const textoTempoTotal = formatarTextoTempo(tempoTotalSegundos);
+        const textoMediaQuestao = formatarTextoTempo(mediaSegundosPorQuestao);
+
+        const infoTempo = criarElemento(
+            'p',
+            `⏱️ Tempo total: ${textoTempoTotal} | Média por questão: ${textoMediaQuestao}`,
+            'result-time-stats'
+        );
+        infoTempo.style.fontWeight = 'bold';
+        infoTempo.style.margin = '10px 0';
+
         const observacao = criarElemento(
             'p',
             'Seu histórico foi atualizado na dashboard.',
@@ -462,7 +539,7 @@ async function enviarRespostas() {
 
         link.href = 'dashboard.html';
 
-        card.append(titulo, resultado, observacao, link);
+        card.append(titulo, resultado, infoTempo, observacao, link);
 
         placar.replaceChildren(card);
     }

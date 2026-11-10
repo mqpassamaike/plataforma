@@ -206,7 +206,7 @@ $$('img[data-bg]').forEach(i => { const off = () => i.hidden = true; i.addEventL
   show(0);
 })();
 
-/* painel do aluno (seção removível) */
+/* painel do aluno */
 (() => {
   const box = $('#bars'); if (!box) return;
   const fills = withQ.map(s => {

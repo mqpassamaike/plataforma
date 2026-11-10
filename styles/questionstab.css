@@ -56,6 +56,7 @@ header {
   border-radius: 6px;
   background-color: var(--card-bg);
   transition: all 0.2s;
+  line-height: 3rem;
 }
 
 .back-link:hover {
@@ -70,7 +71,7 @@ header {
   max-width: 1400px;
   width: 100%;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 2rem 1rem;
   gap: 2rem;
 }
 
@@ -129,6 +130,41 @@ section.content-area {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+}
+
+/* Timer */
+.area-timer{
+  align-items: center;
+  justify-content: center;
+  height: 2rem;
+  margin-bottom: 2.5rem;
+  position: sticky;
+  top: 0;
+  backdrop-filter: blur(10px);
+}
+
+.timer-bar-container{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 10px 15px;
+  background-color: var(--bg-color);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  top: 8px;
+  position: relative;
+}
+
+.timer-display{
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.timer-info{
+  font-weight: bold;
+  color: var(--text-main);
 }
 
 /* Caixa de Teoria Resumida */
@@ -210,6 +246,13 @@ section.content-area {
 }
 
 /* Botões de Ação */
+.area-btn-action{
+  margin: 20px auto;
+  position: sticky;
+  bottom: 8px;
+  display: flex;
+  justify-content: center;
+}
 .btn-action {
   background-color: var(--primary-color);
   color: white;
@@ -220,6 +263,7 @@ section.content-area {
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.2s;
+  width: 100%;
 }
 
 .btn-action:hover {
