@@ -34,6 +34,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  box-shadow:0 6px 18px var(--shadow-color);
 }
 
 .header-title h1 {
@@ -91,6 +92,7 @@ aside h2 {
   margin-bottom: 1rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  text-align: center;
 }
 
 .theme-list {
@@ -122,6 +124,15 @@ aside h2 {
   background-color: var(--primary-color);
   color: white;
   font-weight: 500;
+}
+
+.btn-diff{
+  padding: 0.5rem!important;
+  box-shadow:6px 0px 18px inset var(--shadow-color);
+  border-radius: 0.5rem!important;
+}
+.btn-diff:hover{
+  box-shadow:6px 0px 18px var(--shadow-color)!important;
 }
 
 /* Área de Estudo (Centro) */
@@ -168,12 +179,23 @@ section.content-area {
 }
 
 /* Caixa de Teoria Resumida */
+.selecione-materia{
+  color: var(--primary-color);
+  text-align: center;
+  background: var(--bg-color);
+  padding: 1.5rem;
+  border: 1px var(--border-color) solid;
+  box-shadow:6px 0px 18px inset var(--shadow-color);
+  border-radius: 0.5rem;
+}
 .theory-box {
   background-color: var(--card-bg);
   border: 1px solid var(--border-color);
   border-left: 4px solid var(--primary-color);
+  box-shadow:0 6px 18px var(--shadow-color);
   border-radius: 8px;
   padding: 1.5rem;
+  margin: 2rem 0;
 }
 
 .theory-box h3 {

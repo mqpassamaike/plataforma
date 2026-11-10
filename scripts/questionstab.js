@@ -1,6 +1,5 @@
 import { supabase, paginaProtegida } from './getdumb.js';
-
-const QUANTIDADE_QUESTOES_LOTE = 2;
+import { teoriasTemas } from './teorias.js';
 
 const nomesMaterias = {
     portugues: 'Língua Portuguesa e Interpretação de Texto',
@@ -8,19 +7,6 @@ const nomesMaterias = {
     gerais: 'Conhecimentos Gerais',
     informatica: 'Noções Básicas de Informática',
     administracao: 'Noções de Administração Pública'
-};
-
-const teoriasTemas = {
-    Crase: 'A crase é a fusão da preposição "a" com o artigo definido feminino "a"...',
-    Porcentagem: 'A porcentagem representa uma razão com base 100...',
-    Geografia: 'Estudo do espaço geográfico e organização territorial...',
-    História: 'Estudo dos fatos e processos históricos que moldaram a sociedade...',
-    Atalhos: 'Combinações de teclas para otimizar operações no sistema...',
-    Hardware: 'Componentes físicos e arquitetura de computadores...',
-    Internet: 'Protocolos, redes de computadores e segurança da informação...',
-    'Direito Constitucional': 'Estudo das normas fundamentais e princípios da organização do Estado...',
-    Ética: 'Padrões de conduta e moralidade aplicados à administração pública...',
-    'Organização Administrativa': 'Estrutura, poderes e divisão funcional da administração.'
 };
 
 let loteAtual = null;
@@ -54,7 +40,6 @@ function criarElemento(tag, texto = null, classe = '') {
 function mostrarMensagemQuestao(mensagem) {
     if (!containerQuestoes) return;
 
-    // Se houver mensagem de aviso/carregamento, limpa o cronômetro se estiver rodando
     pararCronometro();
 
     containerQuestoes.replaceChildren(
@@ -63,7 +48,7 @@ function mostrarMensagemQuestao(mensagem) {
 }
 
 function atualizarTeoria(tema) {
-    const theoryContainer = document.getElementById('theoryContainer');
+    let theoryContainer = document.getElementById('theoryContainer');
 
     if (!theoryContainer) return;
 
@@ -95,7 +80,6 @@ function iniciarCronometro() {
         const minutos = Math.floor(elapsedSeconds / 60);
         const segundos = elapsedSeconds % 60;
         
-        // CORRIGIDO: Usando querySelector para buscar pela CLASSE '.timer-display'
         const timerElement = document.querySelector('.timer-display');
         if (timerElement) {
             timerElement.textContent = `${String(minutos).padStart(2, '0')}:${String(segundos).padStart(2, '0')}`;
@@ -259,31 +243,40 @@ async function iniciarLote(materia, tema, dificuldade) {
         return;
     }
 
-
-    renderizarQuestoes(questoesAtuais);
+    // Renderiza as questões passando o tema para montar a teoria logo abaixo do timer
+    renderizarQuestoes(questoesAtuais, tema);
     
-        // Inicia o cronômetro assim que as questões aparecem na tela
+    // Inicia o cronômetro
     iniciarCronometro();
-
 }
 
-function renderizarQuestoes(questoes) {
+function renderizarQuestoes(questoes, tema) {
     containerQuestoes.replaceChildren();
 
-    // Criação do cabeçalho que conterá o display do cronômetro na tela de questões
-    
+    // 1. Criação do timer no topo
     const areaTimer = criarElemento('div', null, 'area-timer');
     const barraSuperior = criarElemento('div', null, 'timer-bar-container');
-
     const labelTimer = criarElemento('span', '⏱️ Tempo decorrido:', 'timer-info');
-
     const displayTimer = criarElemento('span', '00:00', 'timer-display');
-
 
     areaTimer.appendChild(barraSuperior);
     barraSuperior.append(labelTimer, displayTimer);
     containerQuestoes.appendChild(areaTimer);
 
+    // 2. Criação da Caixa de Teoria (Abaixo do timer, antes das questões)
+    const theoryBox = criarElemento('div', null, 'theory-box');
+    theoryBox.id = 'theoryContainer';
+
+    const tituloTeoria = criarElemento('h3', `Teoria Resumida: ${tema || ''}`);
+    const textoTeoria = criarElemento(
+        'p',
+        teoriasTemas[tema] || 'Teoria em breve para este tópico.'
+    );
+
+    theoryBox.append(tituloTeoria, textoTeoria);
+    containerQuestoes.appendChild(theoryBox);
+
+    // 3. Renderização das Questões
     questoes.forEach((questao, index) => {
         const bloco = criarElemento('div', null, 'bloco-questao');
 
@@ -403,7 +396,6 @@ async function enviarRespostas() {
         return;
     }
 
-    // Para o cronômetro e captura o tempo total gasto
     pararCronometro();
     const tempoTotalSegundos = elapsedSeconds;
     const qtdPadrao = totalQuestoes > 0 ? totalQuestoes : qtdQuestoes;
@@ -513,7 +505,6 @@ async function enviarRespostas() {
             'result-text'
         );
 
-        // Textos formatados com o tempo total e a média por questão
         const textoTempoTotal = formatarTextoTempo(tempoTotalSegundos);
         const textoMediaQuestao = formatarTextoTempo(mediaSegundosPorQuestao);
 
